@@ -24,7 +24,7 @@ npm run openapi
 
 **Web (Next.js)** — deploy to **Vercel** (connect the repo; set root directory to `apps/web` or use monorepo preset if needed). Docker is not used for the web app.
 
-**API + DB** — локально или на хостинге:
+**API + DB** — locally or on your host:
 
 **Option 1: Docker (DB + API)**
 
@@ -37,7 +37,7 @@ npm run docker:up
 - api: http://localhost:3001
 - api docs: http://localhost:3001/docs
 
-To run the web locally: `nx serve web` (in a separate terminal). Set `NEXT_PUBLIC_API_URL=http://localhost:3001` in `.env`, and optionally `POSTGRES_*`, `JWT_SECRET`.
+To run the web locally: `npx nx serve web` (in a separate terminal). Set `NEXT_PUBLIC_API_URL=http://localhost:3001` in `.env`, and optionally `POSTGRES_*`, `JWT_SECRET`.
 
 **Option 2: Without Docker**
 
@@ -48,13 +48,13 @@ To run the web locally: `nx serve web` (in a separate terminal). Set `NEXT_PUBLI
 ```bash
 npm ci
 npm run openapi
-nx serve api    # in one terminal
-nx serve web    # in another; set NEXT_PUBLIC_API_URL=http://localhost:3001
+npx nx serve api    # in one terminal
+npx nx serve web    # in another; set NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
 
 ## Dev
 
-API + DB: run `npm run docker:up`. Web locally: `nx serve web` (separate terminal). Or run only the DB in Docker, then `nx serve api` and `nx serve web`.
+API + DB: run `npm run docker:up`. Web locally: `npx nx serve web` (separate terminal). Or run only the DB in Docker, then `npx nx serve api` and `npx nx serve web`.
 
 ## Project structure (Nx monorepo)
 
@@ -64,13 +64,15 @@ API + DB: run `npm run docker:up`. Web locally: `nx serve web` (separate termina
 | `apps/api`               | Fastify REST API (`/v1`), Swagger at `/docs`                   |
 | `libs/shared`            | Shared types + Zod schemas                                     |
 | `libs/api-client`        | Generated OpenAPI client for web                               |
-| `contracts/openapi.json` | API contract (updated via `nx run api:openapi`)                |
+| `contracts/openapi.json` | API contract (updated via `npx nx run api:openapi`)            |
 
 ## Nx
 
-- `nx serve web` — dev server (web)
-- `nx serve api` — dev server (API)
-- `nx run api:openapi` — export OpenAPI to `contracts/openapi.json`
-- `nx run api-client:generate` — regenerate client from contract
-- `nx run-many -t test` — run all tests
-- `nx run-many -t build` — build all apps
+Run with `npx nx` (or add npm scripts). Common commands:
+
+- `npx nx serve web` — dev server (web)
+- `npx nx serve api` — dev server (API)
+- `npx nx run api:openapi` — export OpenAPI to `contracts/openapi.json`
+- `npx nx run api-client:generate` — regenerate client from contract
+- `npx nx run-many -t test` — run all tests
+- `npx nx run-many -t build` — build all apps
