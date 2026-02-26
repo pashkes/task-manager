@@ -1,0 +1,46 @@
+.vscode
+# Dependencies
+node_modules
+
+# Environment (keep .env.example in repo)
+.env
+.env.local
+.env.*.local
+
+# Nx (cache + workspace-data)
+.nx
+
+# Build outputs
+dist
+.next
+out
+build
+*.tsbuildinfo
+.turbo
+
+# Testing
+coverage
+test-results
+playwright-report
+.playwright
+*.lcov
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE (optional: remove .idea/ if your team commits it)
+.idea
+*.swp
+*.swo
+*~
+
+# Docker (local overrides if any)
+docker-compose.override.yml
+docker-compose.*.local.yml

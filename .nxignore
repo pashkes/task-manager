@@ -1,0 +1,2 @@
+# Prevent Nx from scanning build output (e.g. Next plugin would pick up dist/apps/web/next.config and break web:dev)
+dist

@@ -1,0 +1,37 @@
+{
+  "name": "prisma",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/prisma/src",
+  "projectType": "library",
+  "targets": {
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma generate --schema libs/prisma/schema.prisma"
+      }
+    },
+    "migrate:dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma migrate dev --schema libs/prisma/schema.prisma",
+        "envFile": ".env"
+      }
+    },
+    "migrate:deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma migrate deploy --schema libs/prisma/schema.prisma",
+        "envFile": ".env"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "options": {
+        "passWithNoTests": true
+      }
+    }
+  }
+}

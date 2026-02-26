@@ -1,0 +1,8 @@
+dist
+.next
+coverage
+node_modules
+.nx
+.github
+*.lock
+package-lock.json

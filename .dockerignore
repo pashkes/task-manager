@@ -1,0 +1,32 @@
+# Dependencies — installed in container via npm ci
+node_modules
+
+# Nx and build caches
+.nx
+dist
+.next
+out
+.turbo
+*.tsbuildinfo
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Git and IDE
+.git
+.gitignore
+.idea
+*.md
+!README.md
+
+# Tests and tooling (not needed for production build)
+coverage
+test-results
+.playwright
+*.lcov
+*.log
+
+# OS
+.DS_Store

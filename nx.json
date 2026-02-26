@@ -1,0 +1,40 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "production": [
+      "default",
+      "!{projectRoot}/**/*.spec.*",
+      "!{projectRoot}/**/*.test.*",
+      "!{projectRoot}/**/*.e2e.*",
+      "!{projectRoot}/**/test/**",
+      "!{projectRoot}/**/__tests__/**"
+    ],
+    "sharedGlobals": [
+      "{workspaceRoot}/package.json",
+      "{workspaceRoot}/tsconfig.base.json"
+    ]
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/next/plugin",
+      "options": {
+        "startTargetName": "start"
+      }
+    },
+    {
+      "plugin": "@nx/js/typescript"
+    }
+  ],
+  "targetDefaults": {
+    "lint": {
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.cjs"]
+    },
+    "test": {
+      "inputs": ["default"]
+    },
+    "build": {
+      "inputs": ["production"]
+    }
+  }
+}
