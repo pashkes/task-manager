@@ -11,16 +11,7 @@
         "outputPath": "dist/apps/api",
         "main": "apps/api/src/main.ts",
         "tsConfig": "apps/api/tsconfig.app.json",
-        "rootDir": ".",
-        "outputFileName": "apps/api/src/main.js",
-        "assets": [
-          "apps/api/src/assets/**",
-          {
-            "input": "apps/api/node_modules-prisma",
-            "glob": "**/*",
-            "output": "node_modules/@task/prisma"
-          }
-        ]
+        "assets": ["apps/api/src/assets/**"]
       }
     },
     "serve": {

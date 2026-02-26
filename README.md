@@ -1,8 +1,8 @@
 # TaskFlow — Task Manager
 
-Full-stack Kanban-style task manager: Next.js frontend, Fastify REST API, PostgreSQL. Auth (JWT), boards with columns (To Do, In Progress, Done), CRUD and drag-and-drop move for tasks. Nx monorepo with shared types, Prisma, and generated OpenAPI client.
+Full-stack Kanban-style task manager: Next.js frontend, Fastify REST API, PostgreSQL. Auth (JWT), boards with columns (To Do, In Progress, Done), CRUD and drag-and-drop move for tasks. Nx monorepo with shared types, pg (node-postgres), and generated OpenAPI client.
 
-**Stack:** Next.js (App Router) + shadcn/ui · Fastify · Prisma · PostgreSQL · OpenAPI/Swagger
+**Stack:** Next.js (App Router) + shadcn/ui · Fastify · pg · PostgreSQL · OpenAPI/Swagger
 
 **Docs:** [architecture.md](architecture.md) — system diagrams and architecture notes. `memory_bank/` — persistent project context and decisions (when used).
 
@@ -34,15 +34,15 @@ npm run openapi
 npm run docker:up
 ```
 
-- api: http://localhost:3001  
-- api docs: http://localhost:3001/docs  
+- api: http://localhost:3001
+- api docs: http://localhost:3001/docs
 
 Локально веб: `nx serve web` (в отдельном терминале). В `.env` задать `NEXT_PUBLIC_API_URL=http://localhost:3001` и при необходимости `POSTGRES_*`, `JWT_SECRET`.
 
 **Option 2: без Docker**
 
 1. Run PostgreSQL (e.g. `docker run` or a local instance), create the database, and set `DATABASE_URL`.
-2. Run migrations: `nx run prisma:migrate:deploy` (requires `DATABASE_URL` in the environment or `.env`).
+2. Apply DB schema: run `apps/api/schema.sql` against your database (e.g. `psql $DATABASE_URL -f apps/api/schema.sql`) or use your migration tool.
 3. Start API and web via Nx:
 
 ```bash
@@ -58,14 +58,13 @@ nx serve web    # in another; set NEXT_PUBLIC_API_URL=http://localhost:3001
 
 ## Project structure (Nx monorepo)
 
-| Path | Description |
-|------|-------------|
-| `apps/web` | Next.js (App Router) + shadcn/ui — landing, auth, Kanban board |
-| `apps/api` | Fastify REST API (`/v1`), Swagger at `/docs` |
-| `libs/shared` | Shared types + Zod schemas |
-| `libs/prisma` | Prisma schema, migrations, client |
-| `libs/api-client` | Generated OpenAPI client for web |
-| `contracts/openapi.json` | API contract (updated via `nx run api:openapi`) |
+| Path                     | Description                                                    |
+| ------------------------ | -------------------------------------------------------------- |
+| `apps/web`               | Next.js (App Router) + shadcn/ui — landing, auth, Kanban board |
+| `apps/api`               | Fastify REST API (`/v1`), Swagger at `/docs`                   |
+| `libs/shared`            | Shared types + Zod schemas                                     |
+| `libs/api-client`        | Generated OpenAPI client for web                               |
+| `contracts/openapi.json` | API contract (updated via `nx run api:openapi`)                |
 
 ## Nx
 

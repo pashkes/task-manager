@@ -3,10 +3,11 @@ import jwt from '@fastify/jwt'
 import swagger from '@fastify/swagger'
 import swaggerUi from '@fastify/swagger-ui'
 import { Type } from '@sinclair/typebox'
-import { prisma } from '@task/prisma'
 import Fastify from 'fastify'
 import path from 'path'
 import { fileURLToPath } from 'url'
+
+import { healthCheck } from './lib/db.js'
 
 export function buildApp() {
   const app = Fastify({ logger: true })
@@ -38,12 +39,9 @@ export function buildApp() {
       },
     },
     async (_req, reply) => {
-      try {
-        await prisma.$queryRaw`SELECT 1 as one`
-        return reply.code(200).send({ ok: true, db: 'ok' })
-      } catch {
-        return reply.code(503).send({ ok: false, db: 'error' })
-      }
+      const ok = await healthCheck()
+      if (ok) return reply.code(200).send({ ok: true, db: 'ok' })
+      return reply.code(503).send({ ok: false, db: 'error' })
     },
   )
 

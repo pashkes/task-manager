@@ -1,15 +1,8 @@
 {
   "compilerOptions": {
     "paths": {
-      "@task/api-client": [
-        "libs/api-client/src/index.ts"
-      ],
-      "@task/prisma": [
-        "libs/prisma/src/index.ts"
-      ],
-      "@task/shared": [
-        "libs/shared/src/index.ts"
-      ]
+      "@task/api-client": ["libs/api-client/src/index.ts"],
+      "@task/shared": ["libs/shared/src/index.ts"]
     }
   },
   "extends": "../../../../apps/api/tsconfig.app.json"

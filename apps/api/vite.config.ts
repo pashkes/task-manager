@@ -11,7 +11,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@task/shared': path.join(root, 'libs/shared/src/index.ts'),
-      '@task/prisma': path.join(root, 'libs/prisma/src/index.ts'),
       '@task/api-client': path.join(root, 'libs/api-client/src/index.ts'),
     },
   },

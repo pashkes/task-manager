@@ -2,14 +2,14 @@
 
 ## Implementation status (current vs planned)
 
-| Area | Current | Planned (this doc) |
-|------|---------|--------------------|
-| **API base path** | `/api/tasks` (scaffold), `/health` | `/v1` (auth, board, tasks) |
-| **Auth** | Not implemented | JWT register/login/logout, protected routes |
-| **Data model** | `User`, `Task` (status, priority, position) in Prisma | User, Board, Column, Task; board ownership |
-| **API endpoints** | GET /api/tasks → 501 | Full REST: auth, GET/PATCH board, CRUD + move tasks |
-| **OpenAPI** | `contracts/openapi.json` exists, paths empty | Contract exported from API, client generated |
-| **CI** | GitHub Actions: lint, test, build | Same |
+| Area              | Current                                                        | Planned (this doc)                                  |
+| ----------------- | -------------------------------------------------------------- | --------------------------------------------------- |
+| **API base path** | `/api/tasks` (scaffold), `/health`                             | `/v1` (auth, board, tasks)                          |
+| **Auth**          | Not implemented                                                | JWT register/login/logout, protected routes         |
+| **Data model**    | `User`, `Task` (status, priority, position) in PostgreSQL (pg) | User, Board, Column, Task; board ownership          |
+| **API endpoints** | GET /api/tasks → 501                                           | Full REST: auth, GET/PATCH board, CRUD + move tasks |
+| **OpenAPI**       | `contracts/openapi.json` exists, paths empty                   | Contract exported from API, client generated        |
+| **CI**            | GitHub Actions: lint, test, build                              | Same                                                |
 
 The sections below describe the **target** architecture. Implement toward them to remove drift.
 
@@ -21,14 +21,14 @@ The system is a decoupled full-stack application:
 
 - **Frontend** (Next.js, App Router + shadcn/ui) serves UI, public landing, auth pages, and the authenticated Kanban board.
 - **Backend** (Fastify) exposes versioned REST API under `/v1` with OpenAPI/Swagger.
-- **DB** (PostgreSQL) stores users, boards, columns, and tasks via Prisma (schema and migrations in `libs/prisma`).
+- **DB** (PostgreSQL) stores users, boards, columns, and tasks via pg (schema in `apps/api/schema.sql`).
 
 ## Goals
 
 - Nx integrated monorepo.
 - Auth: JWT in httpOnly cookie (or bearer); register/login/logout; protected routes by user.
 - OpenAPI contract in `contracts/openapi.json`; generated client in `libs/api-client` for the web app.
-- Tests: Web — unit (Vitest) + e2e (Playwright); API — unit (Vitest) + integration (Testcontainers + Prisma) + e2e (Supertest).
+- Tests: Web — unit (Vitest) + e2e (Playwright); API — unit (Vitest) + integration (Testcontainers + pg) + e2e (Supertest).
 - Docker: single `docker-compose.yml`. CI: GitHub Actions (lint + build + tests).
 
 ## System Context Diagram
@@ -143,7 +143,6 @@ sequenceDiagram
 │  └─ api/                # Fastify API (/v1, OpenAPI)
 ├─ libs/
 │  ├─ shared/             # Shared types + Zod schemas
-│  ├─ prisma/             # Prisma schema + migrations + client
 │  └─ api-client/         # Generated OpenAPI client for web
 ├─ contracts/
 │  └─ openapi.json        # Exported OpenAPI from API
@@ -158,7 +157,7 @@ sequenceDiagram
 ## Runtime Architecture
 
 - **web** calls **api** over HTTP; `NEXT_PUBLIC_API_URL` points to API; credentials included (cookie or Authorization header).
-- **api** uses **Prisma Client** to talk to **PostgreSQL**.
+- **api** uses **pg** (node-postgres) to talk to **PostgreSQL**.
 - Auth: JWT in httpOnly cookie (recommended) or bearer token; middleware/plugin verifies auth and attaches user to request for protected routes.
 - Data isolation: all board/task operations scoped by authenticated user (and optionally board ownership).
 
@@ -193,7 +192,7 @@ Nx targets:
 ### API
 
 - Unit: pure functions / services.
-- Integration: Postgres via Testcontainers, Prisma migrations, then DB/auth logic.
+- Integration: Postgres via Testcontainers, pg client, then DB/auth logic.
 - E2E: Fastify in-memory, Supertest against `/v1` endpoints.
 
 ### Web

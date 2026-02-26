@@ -10,7 +10,7 @@
 
 ## 2) Database & migrations
 
-- Choose migration tool (e.g., node-pg-migrate / knex / drizzle / prisma-migrate)
+- Choose migration tool (e.g. node-pg-migrate / knex / drizzle, or run schema.sql manually)
 - Create schema:
   - users, boards, columns, tasks
 - Seed:
