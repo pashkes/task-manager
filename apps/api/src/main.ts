@@ -1,12 +1,11 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
-
 import cookie from '@fastify/cookie'
 import jwt from '@fastify/jwt'
 import swagger from '@fastify/swagger'
 import swaggerUi from '@fastify/swagger-ui'
 import { Type } from '@sinclair/typebox'
 import Fastify from 'fastify'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 export function buildApp() {
   const app = Fastify({ logger: true })
