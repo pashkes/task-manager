@@ -2,6 +2,7 @@
   "name": "task-manager",
   "private": true,
   "version": "0.0.0",
+  "main": "dist/apps/api/src/main.js",
   "packageManager": "npm@10.9.2",
   "engines": {
     "node": ">=22 <23"
@@ -11,9 +12,10 @@
   ],
   "scripts": {
     "prepare": "husky",
+    "start": "node dist/apps/api/src/main.js",
     "lint": "nx run-many -t lint",
     "test": "nx run-many -t test",
-    "build": "nx run-many -t build",
+    "build": "nx run api:build",
     "openapi": "nx run api:openapi && nx run api-client:generate",
     "docker:up": "docker compose up --build",
     "docker:down": "docker compose down -v",
