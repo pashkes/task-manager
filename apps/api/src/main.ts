@@ -3,6 +3,7 @@ import jwt from '@fastify/jwt'
 import swagger from '@fastify/swagger'
 import swaggerUi from '@fastify/swagger-ui'
 import { Type } from '@sinclair/typebox'
+import { prisma } from '@task/prisma'
 import Fastify from 'fastify'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -27,10 +28,23 @@ export function buildApp() {
     '/health',
     {
       schema: {
-        response: { 200: Type.Object({ ok: Type.Boolean() }) },
+        response: {
+          200: Type.Object({ ok: Type.Literal(true), db: Type.Literal('ok') }),
+          503: Type.Object({
+            ok: Type.Literal(false),
+            db: Type.Literal('error'),
+          }),
+        },
       },
     },
-    async () => ({ ok: true }),
+    async (_req, reply) => {
+      try {
+        await prisma.$queryRaw`SELECT 1 as one`
+        return reply.code(200).send({ ok: true, db: 'ok' })
+      } catch {
+        return reply.code(503).send({ ok: false, db: 'error' })
+      }
+    },
   )
 
   // Scaffold: tasks endpoint (not implemented)

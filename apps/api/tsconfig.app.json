@@ -2,12 +2,13 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
+    "rootDir": "../..",
     "types": ["node"],
     "noEmit": false,
     "declaration": true,
     "declarationMap": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "../../libs/prisma/src/**/*.ts"],
   "exclude": ["src/**/__tests__/**", "src/**/*.test.ts", "src/**/*.spec.ts"],
   "references": [{ "path": "../../libs/prisma" }]
 }
