@@ -22,7 +22,7 @@ npm run openapi
 
 ## Deploy
 
-**Web (Next.js)** — деплой на **Vercel** (подключить репозиторий, при необходимости указать root directory `apps/web` или monorepo preset). Docker для веба не используется.
+**Web (Next.js)** — deploy to **Vercel** (connect the repo; set root directory to `apps/web` or use monorepo preset if needed). Docker is not used for the web app.
 
 **API + DB** — локально или на хостинге:
 
@@ -37,9 +37,9 @@ npm run docker:up
 - api: http://localhost:3001
 - api docs: http://localhost:3001/docs
 
-Локально веб: `nx serve web` (в отдельном терминале). В `.env` задать `NEXT_PUBLIC_API_URL=http://localhost:3001` и при необходимости `POSTGRES_*`, `JWT_SECRET`.
+To run the web locally: `nx serve web` (in a separate terminal). Set `NEXT_PUBLIC_API_URL=http://localhost:3001` in `.env`, and optionally `POSTGRES_*`, `JWT_SECRET`.
 
-**Option 2: без Docker**
+**Option 2: Without Docker**
 
 1. Run PostgreSQL (e.g. `docker run` or a local instance), create the database, and set `DATABASE_URL`.
 2. Apply DB schema: run `apps/api/schema.sql` against your database (e.g. `psql $DATABASE_URL -f apps/api/schema.sql`) or use your migration tool.
@@ -54,7 +54,7 @@ nx serve web    # in another; set NEXT_PUBLIC_API_URL=http://localhost:3001
 
 ## Dev
 
-Запуск API + DB: `npm run docker:up`. Веб локально: `nx serve web` (отдельный терминал). Либо только БД в Docker, затем `nx serve api` и `nx serve web`.
+API + DB: run `npm run docker:up`. Web locally: `nx serve web` (separate terminal). Or run only the DB in Docker, then `nx serve api` and `nx serve web`.
 
 ## Project structure (Nx monorepo)
 
