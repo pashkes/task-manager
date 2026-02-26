@@ -6,7 +6,8 @@ const workspaceRoot = path.join(__dirname, '../..')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  // standalone is for self-hosted/Docker; Vercel uses its own Next.js runtime
+  ...(process.env.VERCEL ? {} : { output: 'standalone' }),
   turbopack: { root: workspaceRoot },
 }
 export default nextConfig
